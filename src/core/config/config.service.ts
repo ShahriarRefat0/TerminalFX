@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import os from "node:os";
+import type { Config } from "../../shared/types/config.type.js";
 
 export class ConfigService {
   private readonly configPath = path.join(
@@ -22,8 +23,8 @@ export class ConfigService {
     return fs.readFileSync(defaultConfigPath, "utf-8");
   }
 
-  readConfig(): Record<string, unknown> {
-    const content = fs.readFileSync(this.configPath, "utf-8");
-    return JSON.parse(content);
-  }
+readConfig(): Config {
+  const content = fs.readFileSync(this.configPath, "utf-8");
+  return JSON.parse(content) as Config;
+}
 }

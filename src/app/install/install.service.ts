@@ -1,12 +1,12 @@
 import { ConfigService } from "../../core/config/config.service.js";
 import { FileSystemService } from "../../core/filesystem/filesystem.service.js";
 import path from "node:path";
+import { LoggerService } from "../logo/logger.service.js";
 
 export class InstallService {
   private readonly fileSystem = new FileSystemService();
-private readonly configService = new ConfigService();
-
-
+  private readonly configService = new ConfigService();
+  private readonly logger = new LoggerService();
 
   run(): void {
     const configPath = this.fileSystem.getConfigPath();
@@ -21,13 +21,11 @@ private readonly configService = new ConfigService();
 
     const defaultConfig = this.configService.loadDefaultConfig();
 
-    this.fileSystem.writeFile(
-      configFile,defaultConfig
-    );
+    this.fileSystem.writeFile(configFile, defaultConfig);
 
-    console.log("✅ Config directory ready");
-    console.log(configPath);
-    console.log("✅ Default config created");
+    // this.logger.info(configPath);
+
+    this.logger.success("Config directory ready");
+    this.logger.success("Default config created");
   }
-  
 }

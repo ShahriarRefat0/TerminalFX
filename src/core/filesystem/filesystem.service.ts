@@ -22,6 +22,10 @@ export class FileSystemService {
   writeFile(filePath: string, content: string): void {
     fs.writeFileSync(filePath, content, "utf-8");
   }
+
+  readFile(filePath: string): string {
+  return fs.readFileSync(filePath, "utf-8");
+}
 }
 
 

@@ -1,15 +1,19 @@
 import { ConfigService } from "../../core/config/config.service.js";
+import { LoggerService } from "../logo/logger.service.js";
 
 export class PreviewService {
   private readonly configService = new ConfigService();
-
+  private readonly logger = new LoggerService();
   run(): void {
     const config = this.configService.readConfig();
 
     console.log("========================");
-    console.log("🚀 TerminalFX Preview");
+    this.logger.info("TerminalFX Preview");
     console.log("========================\n");
-
-    console.log(config);
+    console.log(`Theme   : ${config.theme}`);
+    console.log(`Logo    : ${config.logo}`);
+    console.log(`Prompt  : ${config.prompt}`);
+    console.log(`Startup : ${config.startup}`);
+    console.log(`Version : ${config.version}`);
   }
 }

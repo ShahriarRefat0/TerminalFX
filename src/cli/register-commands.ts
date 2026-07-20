@@ -7,4 +7,5 @@ export function registerCommands(program: Command) {
     program.addCommand(createInstallCommand());
     program.addCommand(createDoctorCommand());
     program.addCommand(createPreviewCommand());
+
 }

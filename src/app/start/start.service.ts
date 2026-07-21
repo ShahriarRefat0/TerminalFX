@@ -10,23 +10,37 @@ export class StartService {
   private readonly logoService = new LogoService();
   private readonly randomService = new RandomService();
   private readonly promptService = new PromptService();
-  run(): void {
-    const config = this.configService.readConfig();
+run(): void {
+  const config = this.configService.readConfig();
 
-    if (!config.startup) {
-      return;
-    }
-
-    let logo = config.logo;
-
-    if (logo === "random") {
-      logo = this.randomService.pick(this.logoService.getAvailableLogos());
-    }
-    this.logger.success("TerminalFX Started");
-    this.logoService.show(config.logo);
-
-    this.logoService.show(logo);
-
-    this.promptService.show(config.prompt);
+  if (!config.startup) {
+    return;
   }
+
+  const logo = this.resolveRandom(
+    config.logo,
+    this.logoService.getAvailableLogos()
+  );
+
+  const prompt = this.resolveRandom(
+    config.prompt,
+    this.promptService.getAvailablePrompts()
+  );
+
+console.log(this.logoService.get(logo));
+
+console.log();
+
+console.log(this.promptService.get(prompt));
+}
+private resolveRandom(
+  value: string,
+  options: string[]
+): string {
+  if (value !== "random") {
+    return value;
+  }
+
+  return this.randomService.pick(options);
+}
 }

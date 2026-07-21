@@ -1,32 +1,13 @@
-import path from "node:path";
-import { FileSystemService } from "../../core/filesystem/filesystem.service.js";
+import { AssetService } from "../../core/asset/asset.service.js";
 
 export class PromptService {
-  private readonly fileSystem = new FileSystemService();
+  private readonly assetService = new AssetService();
 
-  private getPromptDirectory(): string {
-    return path.join(
-      process.cwd(),
-      "src",
-      "assets",
-      "prompts"
-    );
+  get(name: string): string {
+    return this.assetService.read("prompts", name);
   }
 
-  private getPromptPath(name: string): string {
-    return path.join(
-      this.getPromptDirectory(),
-      `${name}.txt`
-    );
-  }
-
-  show(name: string): void {
-    let promptPath = this.getPromptPath(name);
-
-    if (!this.fileSystem.exists(promptPath)) {
-      promptPath = this.getPromptPath("default");
-    }
-
-    console.log(this.fileSystem.readFile(promptPath));
+  getAvailablePrompts(): string[] {
+    return this.assetService.list("prompts");
   }
 }

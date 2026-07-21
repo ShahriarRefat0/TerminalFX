@@ -101,4 +101,24 @@ installHook(): void {
     `\n\n${this.getHook()}\n`
   );
 }
+
+removeHook(): boolean {
+  if (!this.hasShellConfig()) {
+    return false;
+  }
+
+  const shellConfig = this.getShellConfigPath();
+
+  const content = this.fileSystem.readFile(shellConfig);
+
+  if (!content.includes(this.getHook())) {
+    return false;
+  }
+
+  const updated = content.replace(`${this.getHook()}\n`, "");
+
+  this.fileSystem.writeFile(shellConfig, updated);
+
+  return true;
+}
 }

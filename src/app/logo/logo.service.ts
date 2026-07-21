@@ -1,45 +1,13 @@
-import fs from "node:fs";
-import path from "node:path";
-import { FileSystemService } from "../../core/filesystem/filesystem.service.js";
+import { AssetService } from "../../core/asset/asset.service.js";
 
 export class LogoService {
-    private readonly fileSystem = new FileSystemService();
-  show(name: string): void {
-  let logoPath = this.getLogoPath(name);
+  private readonly assetService = new AssetService();
 
-  if (!this.fileSystem.exists(logoPath)) {
-    logoPath = this.getLogoPath("default");
+  get(name: string): string {
+    return this.assetService.read("logos", name);
   }
 
-  const logo = this.fileSystem.readFile(logoPath);
-
-  console.log(logo);
-
-  
-}
-private getLogoPath(name: string): string {
-  return path.join(
-    process.cwd(),
-    "src",
-    "assets",
-    "logos",
-    `${name}.txt`
-  );
-}
-
-getAvailableLogos(): string[] {
-  return this.fileSystem
-    .readDirectory(this.getLogoDirectory())
-    .filter(file => file.endsWith(".txt"))
-    .map(file => path.parse(file).name);
-}
-
-private getLogoDirectory(): string {
-  return path.join(
-    process.cwd(),
-    "src",
-    "assets",
-    "logos"
-  );
-}
+  getAvailableLogos(): string[] {
+    return this.assetService.list("logos");
+  }
 }

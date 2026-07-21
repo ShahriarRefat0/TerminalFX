@@ -1,5 +1,5 @@
 import { ConfigService } from "../../core/config/config.service.js";
-import { LoggerService } from "../logo/logger.service.js";
+import { LoggerService } from "../logger/logger.service.js";
 
 export class PreviewService {
   private readonly configService = new ConfigService();

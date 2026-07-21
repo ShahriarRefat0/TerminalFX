@@ -26,6 +26,14 @@ export class FileSystemService {
   readFile(filePath: string): string {
   return fs.readFileSync(filePath, "utf-8");
 }
+
+copyFile(source: string, destination: string): void {
+  fs.copyFileSync(source, destination);
+}
+
+appendFile(filePath: string, content: string): void{
+  fs.appendFileSync(filePath, content, "utf-8");
+}
 }
 
 

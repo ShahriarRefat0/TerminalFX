@@ -1,7 +1,8 @@
 import { ConfigService } from "../../core/config/config.service.js";
 import { FileSystemService } from "../../core/filesystem/filesystem.service.js";
 import path from "node:path";
-import { LoggerService } from "../logo/logger.service.js";
+import { LoggerService } from "../logger/logger.service.js";
+import { StartupService } from "../../core/startup/startup.service.js";
 
 export class InstallService {
   private readonly fileSystem = new FileSystemService();
@@ -27,5 +28,9 @@ export class InstallService {
 
     this.logger.success("Config directory ready");
     this.logger.success("Default config created");
+
+    const startupService = new StartupService();
+
+    startupService.backupShellConfig();
   }
 }

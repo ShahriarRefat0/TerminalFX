@@ -34,6 +34,10 @@ copyFile(source: string, destination: string): void {
 appendFile(filePath: string, content: string): void{
   fs.appendFileSync(filePath, content, "utf-8");
 }
+
+readDirectory(directory: string): string[] {
+  return fs.readdirSync(directory);
+}
 }
 
 

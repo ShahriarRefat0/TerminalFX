@@ -8,6 +8,7 @@ export class InstallService {
   private readonly fileSystem = new FileSystemService();
   private readonly configService = new ConfigService();
   private readonly logger = new LoggerService();
+  private readonly startupService = new StartupService();
 
   run(): void {
     const configPath = this.fileSystem.getConfigPath();
@@ -32,5 +33,6 @@ export class InstallService {
     const startupService = new StartupService();
 
     startupService.backupShellConfig();
+    this.startupService.installHook();
   }
 }

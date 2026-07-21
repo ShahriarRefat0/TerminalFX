@@ -2,6 +2,7 @@ import os from "node:os";
 import path from "node:path";
 import type { Shell } from "../../shared/types/shell.type.js";
 import { FileSystemService } from "../filesystem/filesystem.service.js";
+import { config } from "node:process";
 
 export class StartupService {
     private readonly fileSystem = new FileSystemService();
@@ -33,26 +34,29 @@ export class StartupService {
     }
   }
 
-
-  backupShellConfig(): void {
-    const source = this.getShellConfigPath();
-
-    const backupDirectory = path.join(
-      os.homedir(),
-      ".config",
-      "terminalfx",
-      "backups"
-    );
-
-    this.fileSystem.createDirectory(backupDirectory);
-
-    const destination = path.join(
-      backupDirectory,
-      `${this.getShell()}rc.backup`
-    );
-
-    this.fileSystem.copyFile(source, destination);
+backupShellConfig(): void {
+  if (!this.hasShellConfig()) {
+    return;
   }
+
+  const source = this.getShellConfigPath();
+
+  const backupDirectory = path.join(
+    os.homedir(),
+    ".config",
+    "terminalfx",
+    "backups"
+  );
+
+  this.fileSystem.createDirectory(backupDirectory);
+
+  const destination = path.join(
+    backupDirectory,
+    `${this.getShell()}rc.backup`
+  );
+
+  this.fileSystem.copyFile(source, destination);
+}
 
   hasShellConfig(): boolean {
   return this.fileSystem.exists(this.getShellConfigPath());
@@ -78,4 +82,23 @@ getHook(): string {
 
     return content.includes("# >>> TerminalFX >>>");
   }
+
+installHook(): void {
+  const configPath = this.getShellConfigPath();
+
+  if (!this.hasShellConfig()) {
+    this.fileSystem.writeFile(configPath, "");
+  }
+
+  this.backupShellConfig();
+
+  if (this.hasTerminalFXHook()) {
+    return;
+  }
+
+  this.fileSystem.appendFile(
+    configPath,
+    `\n\n${this.getHook()}\n`
+  );
+}
 }

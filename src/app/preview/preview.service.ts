@@ -10,7 +10,6 @@ export class PreviewService {
     console.log("========================");
     this.logger.info("TerminalFX Preview");
     console.log("========================\n");
-    console.log(`Theme   : ${config.theme}`);
     console.log(`Logo    : ${config.logo}`);
     console.log(`Prompt  : ${config.prompt}`);
     console.log(`Startup : ${config.startup}`);

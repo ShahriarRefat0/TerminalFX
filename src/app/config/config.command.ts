@@ -1,7 +1,5 @@
 import { Command } from "commander";
 import { ConfigService } from "./config.service.js";
-import type { Config } from "../../shared/types/config.type.js";
-
 
 export function createConfigCommand(): Command {
   const configService = new ConfigService();
@@ -13,10 +11,8 @@ export function createConfigCommand(): Command {
       new Command("get")
         .description("Show current configuration")
         .action(() => {
-          console.log(
-            JSON.stringify(configService.get(), null, 2)
-          );
-        })
+          console.log(JSON.stringify(configService.get(), null, 2));
+        }),
     )
 
     .addCommand(
@@ -25,7 +21,13 @@ export function createConfigCommand(): Command {
         .argument("<key>", "Configuration key")
         .argument("<value>", "Configuration value")
         .action((key, value) => {
-          configService.set(key as keyof Config, value);
-        })
+          try {
+            const message = configService.set(key, value);
+
+            console.log(`✔ ${message}`);
+          } catch (error) {
+            console.error(error instanceof Error ? error.message : error);
+          }
+        }),
     );
 }

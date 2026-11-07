@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "node init && tsx src/index.ts",
-    "dev:watch": "node init && tsx watch src/index.ts",
-    "start": "node init && tsx src/index.ts",
-    "build": "node init && tsc"
+    "dev": "tsx src/index.ts",
+    "dev:watch": "tsx watch src/index.ts",
+    "start": "tsx src/index.ts",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
